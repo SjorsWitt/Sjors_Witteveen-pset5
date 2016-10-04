@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">To-Do App</string>
+    <string name="add_item">New to-do item</string>
+    <string name="help_text">Long-press an item to remove it.</string>
+</resources>
