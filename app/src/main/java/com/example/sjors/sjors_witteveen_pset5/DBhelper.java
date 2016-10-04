@@ -20,10 +20,10 @@ public class DBhelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     // table/column names
-    String to_do_items = "to_do_items";
-    String _id = "_id";
-    String to_do_text = "to_do_text";
-    String checked = "checked";
+    private String to_do_items = "to_do_items";
+    private String _id = "_id";
+    private String to_do_text = "to_do_text";
+    private String checked = "checked";
 
     // constructor
     public DBhelper(Context context) {
@@ -51,8 +51,8 @@ public class DBhelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(to_do_text, toDoItem.text);
-        values.put(checked, toDoItem.checked);
+        values.put(to_do_text, toDoItem.getText());
+        values.put(checked, toDoItem.getChecked());
 
         db.insert(to_do_items, null, values);
         db.close();
@@ -86,9 +86,10 @@ public class DBhelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(checked, toDoItem.checked);
+        values.put(checked, toDoItem.getChecked());
 
-        db.update(to_do_items, values, _id + " = ?", new String[]{String.valueOf(toDoItem.id)});
+        db.update(to_do_items, values, _id + " = ?",
+                new String[]{String.valueOf(toDoItem.getId())});
 
         db.close();
     }
@@ -97,7 +98,7 @@ public class DBhelper extends SQLiteOpenHelper {
     public void delete(ToDoItem toDoItem) {
         SQLiteDatabase db = getWritableDatabase();
 
-        db.delete(to_do_items, _id + " = ?", new String[]{String.valueOf(toDoItem.id)});
+        db.delete(to_do_items, _id + " = ?", new String[]{String.valueOf(toDoItem.getId())});
 
         db.close();
     }

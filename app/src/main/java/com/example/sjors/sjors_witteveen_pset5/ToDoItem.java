@@ -9,9 +9,9 @@ package com.example.sjors.sjors_witteveen_pset5;
 
 public class ToDoItem {
 
-    public int id;
-    public String text;
-    public boolean checked;
+    private int id;
+    private String text;
+    private boolean checked;
 
     // constructor: ToDoItem is unchecked by default
     public ToDoItem(String text) {
@@ -24,6 +24,19 @@ public class ToDoItem {
         this.id = id;
         this.text = text;
         this.checked = checked;
+    }
+
+    // getters
+    public int getId() {
+        return id;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public boolean getChecked() {
+        return checked;
     }
 
     // checks/unchecks depending on whether already checked or not

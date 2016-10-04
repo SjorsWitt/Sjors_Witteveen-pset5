@@ -35,8 +35,8 @@ public class MyAdapter extends ArrayAdapter<ToDoItem> {
         TextView toDoText = (TextView) view.findViewById(R.id.to_do_text);
         CheckBox toDoCheckBox = (CheckBox) view.findViewById(R.id.to_do_checkbox);
 
-        toDoText.setText(toDoItem.text);
-        toDoCheckBox.setChecked(toDoItem.checked);
+        toDoText.setText(toDoItem.getText());
+        toDoCheckBox.setChecked(toDoItem.getChecked());
 
         return view;
     }
