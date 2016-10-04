@@ -12,7 +12,9 @@ package com.example.sjors.sjors_witteveen_pset5;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
@@ -20,7 +22,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class ToDoListActivity extends Activity {
+public class ToDoListActivity extends AppCompatActivity {
 
     private final String FIRST_RUN = "first run";
 
@@ -35,7 +37,12 @@ public class ToDoListActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_to_do_list);
+
+        // display up navigation button
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         // find Views by id
         addItem = (EditText) findViewById(R.id.add_item);
@@ -102,5 +109,12 @@ public class ToDoListActivity extends Activity {
             }
         });
 
+    }
+
+    // navigate up when top left arrow is clicked
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        finish();
+        return super.onOptionsItemSelected(item);
     }
 }

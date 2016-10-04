@@ -2,5 +2,6 @@
     <string name="app_name">To-Do App</string>
     <string name="add_item">New to-do item</string>
     <string name="help_text">Long-press an item to remove it.</string>
-    <string name="to_do_list_activity_title">To-Do List</string>
+    <string name="title_activity_to_do_list">To-Do List</string>
+    <string name="action_add_new">Add new To-Do List.</string>
 </resources>
