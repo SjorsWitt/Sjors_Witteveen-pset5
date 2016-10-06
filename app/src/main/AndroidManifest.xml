@@ -20,6 +20,10 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden">
         </activity>
+        <activity android:name=".NewToDoListActivity"
+            android:label="New To-Do List"
+            android:theme="@style/AppTheme">
+        </activity>
     </application>
 
 </manifest>

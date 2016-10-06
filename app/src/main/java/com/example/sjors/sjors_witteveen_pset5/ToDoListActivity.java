@@ -15,7 +15,7 @@ import android.view.MenuItem;
 
 public class ToDoListActivity extends AppCompatActivity {
 
-    // onCreate method handles variable initializations and onClick methods
+    // onCreate method sets layout and displays navigation button
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

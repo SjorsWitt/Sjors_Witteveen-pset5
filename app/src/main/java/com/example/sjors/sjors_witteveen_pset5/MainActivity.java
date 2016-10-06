@@ -12,9 +12,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Intent intent = new Intent(this, ToDoListActivity.class);
-        startActivity(intent);
     }
 
     // show add_new button (plus icon) in action bar
@@ -29,7 +26,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.add_new) {
-
+            Intent intent = new Intent(this, NewToDoListActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

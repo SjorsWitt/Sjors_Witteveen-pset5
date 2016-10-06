@@ -1,7 +1,7 @@
 package com.example.sjors.sjors_witteveen_pset5;
 
 import android.app.Fragment;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -13,93 +13,81 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import static android.content.Context.MODE_PRIVATE;
-
 public class ToDoListFragment extends Fragment {
 
-    private final String FIRST_RUN = "first run";
-
     private EditText addItem;
-    private ListView toDoList;
+    private ListView toDoListView;
 
-    private DBhelper dbhelper;
+    private ToDoManager toDoManager;
 
     private MyAdapter adapter;
 
+    // links to layout file and find views by id
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_to_do_list, container, false);
 
         // find Views by id
         addItem = (EditText) view.findViewById(R.id.add_item);
-        toDoList = (ListView) view.findViewById(R.id.to_do_list);
+        toDoListView = (ListView) view.findViewById(R.id.to_do_list);
 
         return view;
     }
 
+    // sets adapter and handles on click listeners
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        toDoManager = ToDoManager.getInstance();
 
-        // DBhelper initialization
-        dbhelper = new DBhelper(getActivity());
+        // get list position extra from previous activity
+        Intent intent = getActivity().getIntent();
+        final int listPosition = intent.getExtras().getInt("position");
 
-        // adapter initialization and adapter is set to ListView toDoList
-        adapter = new MyAdapter(getActivity(), dbhelper.read());
-        toDoList.setAdapter(adapter);
+        // initializes new adapter with the right ToDoItems and sets to toDoListView
+        adapter = new MyAdapter(getActivity(), toDoManager.getToDoList(listPosition).getToDoItems());
+        toDoListView.setAdapter(adapter);
 
-        // creates three new ToDoItem objects only on first run
-        SharedPreferences pref = getActivity().getSharedPreferences("pref", MODE_PRIVATE);
-        if (pref.getBoolean(FIRST_RUN, true)) {
-            dbhelper.create(new ToDoItem("Welcome to your To-Do List!"));
-            dbhelper.create(new ToDoItem("Type a new to-do item below."));
-            dbhelper.create(new ToDoItem("Long-press an item to remove it."));
-            pref.edit().putBoolean(FIRST_RUN, false).apply();
-        }
+        // sets activity title to ToDoList title
+        getActivity().setTitle(toDoManager.getToDoList(listPosition).getTitle());
 
         // listens to EditText editor action
         addItem.setOnEditorActionListener(new EditText.OnEditorActionListener() {
-            // initializes new ToDoItem, puts it in SQLiteDataBase table & notifies adapter
+            // initializes new ToDoItem and adds it to ArrayList of ToDoItems
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     ToDoItem toDoItem = new ToDoItem(addItem.getText().toString());
-                    dbhelper.create(toDoItem);
-                    adapter.clear();
-                    adapter.addAll(dbhelper.read());
+                    toDoManager.getToDoList(listPosition).getToDoItems().add(toDoItem);
+                    adapter.notifyDataSetChanged();
                     addItem.getText().clear();
-                    toDoList.smoothScrollToPosition(adapter.getCount() - 1);
+                    toDoListView.smoothScrollToPosition(adapter.getCount() - 1);
                     return true;
                 }
                 return true;
             }
         });
 
-        // toDoList on item click listener
-        toDoList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            // checks/unchecks ToDoItem in adapter resource, updates in SQLiteDataBase table
-            // & notifies adapter
+        // toDoListView on item click listener
+        toDoListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            // checks/unchecks ToDoItem that is clicked and notifies adapter
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                dbhelper.update(adapter.getItem(position).switchChecked());
-
+                toDoManager.getToDoList(listPosition).getToDoItems().get(position).switchChecked();
                 adapter.notifyDataSetChanged();
             }
         });
 
-        // toDoList on item long click listener
-        toDoList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            // deletes ToDoItem from SQLiteDataBase, removes it from adapter resource
-            // & notifies adapter
+        // toDoListView on item long click listener
+        toDoListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            // removes ToDoItem from ToDoItems ArrayList and notifies adapter
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                dbhelper.delete(adapter.getItem(position));
-
-                adapter.remove(adapter.getItem(position));
+                toDoManager.getToDoList(listPosition).getToDoItems().remove(position);
                 adapter.notifyDataSetChanged();
-
                 return true;
             }
         });
     }
+
 }

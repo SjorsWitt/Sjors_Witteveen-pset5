@@ -10,4 +10,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.sjors.sjors_witteveen_pset5.MainActivity">
 
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="com.example.sjors.sjors_witteveen_pset5.ToDoListsFragment"
+        android:id="@+id/fragment_to_do_lists" />
+
 </RelativeLayout>
