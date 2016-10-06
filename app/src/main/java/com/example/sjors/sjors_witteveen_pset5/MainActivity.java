@@ -23,8 +23,8 @@ public class MainActivity extends AppCompatActivity {
         toDoManager = ToDoManager.getInstance();
         pref = getSharedPreferences("table names", MODE_PRIVATE);
 
+        // for all tableName: read SQLite Database and add to toDoManager
         int numberOfTitles = pref.getAll().size();
-
         for (int i = 0; i < numberOfTitles; i++) {
             String tableName = pref.getString(String.valueOf(i), "");
             dBhelper = new DBhelper(this, tableName);
@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // refresh Databases with new data
     @Override
     protected void onStop() {
         super.onStop();
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
             deleteDatabase(db);
         }
         SharedPreferences.Editor editor = pref.edit();
+        editor.clear();
 
         // for every ToDoList in singleton toDoManager: make new DBhelper with custom tableName
         for (int i = 0; i < toDoManager.getToDoLists().size(); i++) {
@@ -67,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
             String tableName = title.replaceAll(" ", "_");
 
             dBhelper = new DBhelper(this, tableName);
+
+            // saves all tableNames
             editor.putString(String.valueOf(i), tableName);
 
             // for every ToDoItem in ToDoList: create ToDoItem in SQLite Database table

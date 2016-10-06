@@ -33,4 +33,10 @@ public class ToDoListActivity extends AppCompatActivity {
         finish();
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        
+    }
 }

@@ -21,11 +21,9 @@ public class ToDoManager {
 
     public ArrayList<String> getTitles() {
         ArrayList<String> titles = new ArrayList<>();
-
         for (int i = 0; i < toDoLists.size(); i++) {
             titles.add(toDoLists.get(i).getTitle());
         }
-
         return titles;
     }
 

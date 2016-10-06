@@ -10,18 +10,22 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+
 public class ToDoListsFragment  extends Fragment {
 
     private ToDoManager toDoManager;
 
-    private ListView toDoLists;
+    private ListView toDoListsView;
     private ArrayAdapter<String> adapter;
+
+    ArrayList<String> titles;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_to_do_lists, container, false);
 
-        toDoLists = (ListView) view.findViewById(R.id.to_do_lists);
+        toDoListsView = (ListView) view.findViewById(R.id.to_do_lists);
 
         return view;
     }
@@ -31,18 +35,31 @@ public class ToDoListsFragment  extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         toDoManager = ToDoManager.getInstance();
+        titles = toDoManager.getTitles();
 
-        adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1,
-                toDoManager.getTitles());
-        toDoLists.setAdapter(adapter);
+        adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, titles);
+        toDoListsView.setAdapter(adapter);
 
-        // toDoLists on item click listener
-        toDoLists.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        // toDoListsView on item click listener
+        toDoListsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), ToDoListActivity.class);
                 intent.putExtra("position", position);
                 startActivity(intent);
+            }
+        });
+
+        // toDoListsView on item long click listener
+        toDoListsView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            // removes ToDoList from toDoManager and notifies adapter
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                toDoManager.getToDoLists().remove(position);
+                adapter.clear();
+                adapter.addAll(toDoManager.getTitles());
+                adapter.notifyDataSetChanged();
+                return true;
             }
         });
     }
