@@ -22,7 +22,7 @@ public class NewToDoListActivity extends AppCompatActivity {
     }
 
     public void onSave(View view) {
-        toDoManager.addToDoList(new ToDoList(titleInput.getText().toString()));
+        toDoManager.getToDoLists().add(new ToDoList(titleInput.getText().toString()));
         finish();
     }
 }

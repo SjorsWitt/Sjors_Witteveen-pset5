@@ -45,11 +45,12 @@ public class ToDoListFragment extends Fragment {
         final int listPosition = intent.getExtras().getInt("position");
 
         // initializes new adapter with the right ToDoItems and sets to toDoListView
-        adapter = new MyAdapter(getActivity(), toDoManager.getToDoList(listPosition).getToDoItems());
+        adapter = new MyAdapter(getActivity(),
+                toDoManager.getToDoLists().get(listPosition).getToDoItems());
         toDoListView.setAdapter(adapter);
 
         // sets activity title to ToDoList title
-        getActivity().setTitle(toDoManager.getToDoList(listPosition).getTitle());
+        getActivity().setTitle(toDoManager.getToDoLists().get(listPosition).getTitle());
 
         // listens to EditText editor action
         addItem.setOnEditorActionListener(new EditText.OnEditorActionListener() {
@@ -58,7 +59,7 @@ public class ToDoListFragment extends Fragment {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     ToDoItem toDoItem = new ToDoItem(addItem.getText().toString());
-                    toDoManager.getToDoList(listPosition).getToDoItems().add(toDoItem);
+                    toDoManager.getToDoLists().get(listPosition).getToDoItems().add(toDoItem);
                     adapter.notifyDataSetChanged();
                     addItem.getText().clear();
                     toDoListView.smoothScrollToPosition(adapter.getCount() - 1);
@@ -73,7 +74,8 @@ public class ToDoListFragment extends Fragment {
             // checks/unchecks ToDoItem that is clicked and notifies adapter
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                toDoManager.getToDoList(listPosition).getToDoItems().get(position).switchChecked();
+                toDoManager.getToDoLists().get(listPosition).getToDoItems()
+                        .get(position).switchChecked();
                 adapter.notifyDataSetChanged();
             }
         });
@@ -83,7 +85,7 @@ public class ToDoListFragment extends Fragment {
             // removes ToDoItem from ToDoItems ArrayList and notifies adapter
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                toDoManager.getToDoList(listPosition).getToDoItems().remove(position);
+                toDoManager.getToDoLists().get(listPosition).getToDoItems().remove(position);
                 adapter.notifyDataSetChanged();
                 return true;
             }

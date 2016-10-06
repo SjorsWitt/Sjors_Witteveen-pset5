@@ -16,37 +16,38 @@ import java.util.ArrayList;
 
 public class DBhelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "firstdb.db";
+    private static final String DATABASE_NAME = "todoDB.db";
     private static final int DATABASE_VERSION = 1;
 
     // table/column names
-    private String to_do_items = "to_do_items";
+    private String table_name;
     private String _id = "_id";
     private String to_do_text = "to_do_text";
     private String checked = "checked";
 
     // constructor
-    public DBhelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    public DBhelper(Context context, String table_name) {
+        super(context, table_name, null, DATABASE_VERSION);
+        this.table_name = table_name;
     }
 
     // creates table with an integer, a text and a boolean
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String query = "CREATE TABLE to_do_items ( _id INTEGER PRIMARY KEY AUTOINCREMENT , " +
+        String query = "CREATE TABLE " + table_name + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT , " +
                 "to_do_text TEXT, checked BOOLEAN )";
         db.execSQL(query);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        String query = "DROP TABLE IF EXISTS to_do_items";
+        String query = "DROP TABLE IF EXISTS " + table_name;
         db.execSQL(query);
 
         onCreate(db);
     }
 
-    // puts a ToDoItem in the to_do_items table
+    // puts a ToDoItem in the table
     public void create(ToDoItem toDoItem) {
         SQLiteDatabase db = getWritableDatabase();
 
@@ -54,16 +55,16 @@ public class DBhelper extends SQLiteOpenHelper {
         values.put(to_do_text, toDoItem.getText());
         values.put(checked, toDoItem.getChecked());
 
-        db.insert(to_do_items, null, values);
+        db.insert(table_name, null, values);
         db.close();
     }
 
-    // reads to_do_items table and returns ToDoItems in an ArrayList
+    // reads table and returns ToDoItems in an ArrayList
     public ArrayList<ToDoItem> read() {
         ArrayList<ToDoItem> toDoItems = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
 
-        String query = "SELECT _id , to_do_text , checked FROM to_do_items";
+        String query = "SELECT _id , to_do_text , checked FROM " + table_name;
         Cursor cursor = db.rawQuery(query, null);
 
         // loop through cursor
@@ -81,24 +82,24 @@ public class DBhelper extends SQLiteOpenHelper {
         return toDoItems;
     }
 
-    // updates ToDoItem checked/unchecked in to_do_items table
+    // updates ToDoItem checked/unchecked in table
     public void update(ToDoItem toDoItem) {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(checked, toDoItem.getChecked());
 
-        db.update(to_do_items, values, _id + " = ?",
+        db.update(table_name, values, _id + " = ?",
                 new String[]{String.valueOf(toDoItem.getId())});
 
         db.close();
     }
 
-    // deletes ToDoItem from to_do_items table
+    // deletes ToDoItem from table
     public void delete(ToDoItem toDoItem) {
         SQLiteDatabase db = getWritableDatabase();
 
-        db.delete(to_do_items, _id + " = ?", new String[]{String.valueOf(toDoItem.getId())});
+        db.delete(table_name, _id + " = ?", new String[]{String.valueOf(toDoItem.getId())});
 
         db.close();
     }

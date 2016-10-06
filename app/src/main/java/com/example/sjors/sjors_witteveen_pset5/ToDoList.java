@@ -11,6 +11,11 @@ public class ToDoList {
         this.title = title;
     }
 
+    public ToDoList(String title, ArrayList<ToDoItem> toDoItems) {
+        this.title = title;
+        this.toDoItems = toDoItems;
+    }
+
     public String getTitle() {
         return title;
     }

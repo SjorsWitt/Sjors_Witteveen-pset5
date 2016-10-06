@@ -4,4 +4,6 @@
     <string name="help_text">Long-press an item to remove it.</string>
     <string name="title_activity_to_do_list">To-Do List</string>
     <string name="action_add_new">Add new To-Do List.</string>
+    <string name="new_list_hint">Title</string>
+    <string name="new_list_button">Save</string>
 </resources>

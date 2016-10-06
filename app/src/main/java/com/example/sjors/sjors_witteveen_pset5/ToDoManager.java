@@ -15,12 +15,8 @@ public class ToDoManager {
     private ToDoManager() {
     }
 
-    public ToDoList getToDoList(int position) {
-        return toDoLists.get(position);
-    }
-
-    public void addToDoList(ToDoList toDoList) {
-        toDoLists.add(toDoList);
+    public ArrayList<ToDoList> getToDoLists() {
+        return toDoLists;
     }
 
     public ArrayList<String> getTitles() {
