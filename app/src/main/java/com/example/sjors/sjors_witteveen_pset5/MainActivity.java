@@ -26,10 +26,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // get ToDoManager instance and make sure it is empty
         toDoManager = ToDoManager.getInstance();
         if (toDoManager.getTitles().size() != 0) {
             toDoManager.clear();
         }
+
         pref = getSharedPreferences("table names", MODE_PRIVATE);
 
         // for all tableName: read SQLite Database and add to toDoManager

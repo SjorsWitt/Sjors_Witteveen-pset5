@@ -30,10 +30,15 @@ public class NewToDoListActivity extends AppCompatActivity {
     // get user input on Save button click
     public void onSave(View view) {
         String input = titleInput.getText().toString();
+        // show toast when there is already a list with this title
         if (toDoManager.getTitles().contains(input)) {
             Toast.makeText(this, R.string.title_exists, Toast.LENGTH_SHORT).show();
+
+        // show toast when title input is empty
         } else if (input.equals("")) {
             Toast.makeText(this, R.string.insert_title, Toast.LENGTH_SHORT).show();
+
+        // create new ToDoList with title input
         } else {
             toDoManager.getToDoLists().add(new ToDoList(input));
             finish();
