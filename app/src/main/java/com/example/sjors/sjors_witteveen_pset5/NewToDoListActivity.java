@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class NewToDoListActivity extends AppCompatActivity {
 
@@ -28,7 +29,14 @@ public class NewToDoListActivity extends AppCompatActivity {
 
     // get user input on Save button click
     public void onSave(View view) {
-        toDoManager.getToDoLists().add(new ToDoList(titleInput.getText().toString()));
-        finish();
+        String input = titleInput.getText().toString();
+        if (toDoManager.getTitles().contains(input)) {
+            Toast.makeText(this, R.string.title_exists, Toast.LENGTH_SHORT).show();
+        } else if (input.equals("")) {
+            Toast.makeText(this, R.string.insert_title, Toast.LENGTH_SHORT).show();
+        } else {
+            toDoManager.getToDoLists().add(new ToDoList(input));
+            finish();
+        }
     }
 }

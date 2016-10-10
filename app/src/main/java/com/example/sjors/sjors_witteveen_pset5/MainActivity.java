@@ -27,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         toDoManager = ToDoManager.getInstance();
+        if (toDoManager.getTitles().size() != 0) {
+            toDoManager.clear();
+        }
         pref = getSharedPreferences("table names", MODE_PRIVATE);
 
         // for all tableName: read SQLite Database and add to toDoManager
@@ -61,8 +64,8 @@ public class MainActivity extends AppCompatActivity {
 
     // create new Databases with new data
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
         for (String db : databaseList()) {
             deleteDatabase(db);
         }
@@ -86,4 +89,5 @@ public class MainActivity extends AppCompatActivity {
         }
         editor.apply();
     }
+
 }

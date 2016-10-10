@@ -6,4 +6,6 @@
     <string name="action_add_new">Add new To-Do List.</string>
     <string name="new_list_hint">Title</string>
     <string name="new_list_button">Save</string>
+    <string name="title_exists">This title already exists.</string>
+    <string name="insert_title">Title cannot be empty.</string>
 </resources>

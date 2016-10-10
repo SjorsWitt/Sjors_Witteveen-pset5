@@ -36,4 +36,8 @@ public class ToDoManager {
         return titles;
     }
 
+    public void clear() {
+        toDoLists = new ArrayList<>();
+    }
+
 }

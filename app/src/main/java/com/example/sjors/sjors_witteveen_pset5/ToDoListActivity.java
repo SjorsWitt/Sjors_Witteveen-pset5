@@ -33,8 +33,8 @@ public class ToDoListActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
         ToDoManager toDoManager = ToDoManager.getInstance();
         SharedPreferences pref = getSharedPreferences("table names", MODE_PRIVATE);
         DBhelper dBhelper;
