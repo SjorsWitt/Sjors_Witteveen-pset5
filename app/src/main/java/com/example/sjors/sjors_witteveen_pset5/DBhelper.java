@@ -1,7 +1,7 @@
 /*
  * By Sjors Witteveen
  * Extension of SQLiteOpenHelper. This class creates and manages a table consisting of ToDoItem
- * objects. CRUD (create, read, update & delete) methods are implemented in this class.
+ * objects. create and read methods are implemented in this class.
  */
 
 package com.example.sjors.sjors_witteveen_pset5;
@@ -16,7 +16,6 @@ import java.util.ArrayList;
 
 public class DBhelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "todoDB.db";
     private static final int DATABASE_VERSION = 1;
 
     // table/column names
@@ -80,28 +79,6 @@ public class DBhelper extends SQLiteOpenHelper {
         db.close();
 
         return toDoItems;
-    }
-
-    // updates ToDoItem checked/unchecked in table
-    public void update(ToDoItem toDoItem) {
-        SQLiteDatabase db = getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(checked, toDoItem.getChecked());
-
-        db.update(table_name, values, _id + " = ?",
-                new String[]{String.valueOf(toDoItem.getId())});
-
-        db.close();
-    }
-
-    // deletes ToDoItem from table
-    public void delete(ToDoItem toDoItem) {
-        SQLiteDatabase db = getWritableDatabase();
-
-        db.delete(table_name, _id + " = ?", new String[]{String.valueOf(toDoItem.getId())});
-
-        db.close();
     }
 
 }

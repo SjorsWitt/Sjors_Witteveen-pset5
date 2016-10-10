@@ -1,3 +1,11 @@
+/*
+ * by Sjors Witteveen
+ * This is the main app activity. With this app you can create multiple to-do lists. The user can
+ * create new to-do lists and add new to-do items to this list. This class manages all data by
+ * reading from the data base onCreate and saving to new databases onStop. The activity's layout
+ * consists of the fragment ToDoListsFragment.
+ */
+
 package com.example.sjors.sjors_witteveen_pset5;
 
 import android.content.Intent;
@@ -6,8 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // refresh Databases with new data
+    // create new Databases with new data
     @Override
     protected void onStop() {
         super.onStop();

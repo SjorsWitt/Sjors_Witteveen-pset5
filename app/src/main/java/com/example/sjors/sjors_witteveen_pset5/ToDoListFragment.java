@@ -1,3 +1,9 @@
+/*
+ * by Sjors Witteveen
+ * This fragment handles a single to-do list. The user can add, check and delete new to-do items.
+ * Item click listeners are handled in this class.
+ */
+
 package com.example.sjors.sjors_witteveen_pset5;
 
 import android.app.Fragment;
@@ -20,7 +26,7 @@ public class ToDoListFragment extends Fragment {
 
     private ToDoManager toDoManager;
 
-    private MyAdapter adapter;
+    private ToDoAdapter adapter;
 
     // links to layout file and find views by id
     @Override
@@ -45,7 +51,7 @@ public class ToDoListFragment extends Fragment {
         final int listPosition = intent.getExtras().getInt("position");
 
         // initializes new adapter with the right ToDoItems and sets to toDoListView
-        adapter = new MyAdapter(getActivity(),
+        adapter = new ToDoAdapter(getActivity(),
                 toDoManager.getToDoLists().get(listPosition).getToDoItems());
         toDoListView.setAdapter(adapter);
 

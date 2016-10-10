@@ -16,10 +16,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class MyAdapter extends ArrayAdapter<ToDoItem> {
+public class ToDoAdapter extends ArrayAdapter<ToDoItem> {
 
     // constructor
-    public MyAdapter(Context context, ArrayList<ToDoItem> toDoList) {
+    public ToDoAdapter(Context context, ArrayList<ToDoItem> toDoList) {
         super(context, R.layout.list_item, toDoList);
     }
 

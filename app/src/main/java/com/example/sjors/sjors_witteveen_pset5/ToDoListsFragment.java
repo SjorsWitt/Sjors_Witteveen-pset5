@@ -1,3 +1,8 @@
+/*
+ * by Sjors Witteveen
+ * This fragment handles the main to-do lists list. It handles on item click listeners.
+ */
+
 package com.example.sjors.sjors_witteveen_pset5;
 
 import android.app.Fragment;
@@ -21,6 +26,7 @@ public class ToDoListsFragment  extends Fragment {
 
     ArrayList<String> titles;
 
+    // find ListView by id
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_to_do_lists, container, false);
@@ -30,6 +36,7 @@ public class ToDoListsFragment  extends Fragment {
         return view;
     }
 
+    // handles adapter and on item click listeners
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -37,6 +44,7 @@ public class ToDoListsFragment  extends Fragment {
         toDoManager = ToDoManager.getInstance();
         titles = toDoManager.getTitles();
 
+        // adapter is created and set to toDoListsView
         adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, titles);
         toDoListsView.setAdapter(adapter);
 

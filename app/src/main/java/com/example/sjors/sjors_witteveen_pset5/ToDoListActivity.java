@@ -1,14 +1,12 @@
 /*
  * by Sjors Witteveen
- * This is the main app activity. This app is a simple To-Do List. The user can add new to-do items
- * by typing them in the bottom textfield. Once added, the items appear in the ListView with an
- * unchecked box. The user can now check this item when the to-do item has been done. The user can
- * also choose to remove the to-do item completely by long-pressing an item. This class initializes
- * MyAdapter and sets it to the ListView toDoList. It also handles OnEditor and OnClick listeners.
+ * This Activity sets up the activity bar buttons. The activity's layout consists of the fragment
+ * ToDoListFragment
  */
 
 package com.example.sjors.sjors_witteveen_pset5;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -37,6 +35,31 @@ public class ToDoListActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        
+        ToDoManager toDoManager = ToDoManager.getInstance();
+        SharedPreferences pref = getSharedPreferences("table names", MODE_PRIVATE);
+        DBhelper dBhelper;
+
+        for (String db : databaseList()) {
+            deleteDatabase(db);
+        }
+        SharedPreferences.Editor editor = pref.edit();
+        editor.clear();
+
+        // for every ToDoList in singleton toDoManager: make new DBhelper with custom tableName
+        for (int i = 0; i < toDoManager.getToDoLists().size(); i++) {
+            String title = toDoManager.getToDoLists().get(i).getTitle();
+            String tableName = title.replaceAll(" ", "_");
+
+            dBhelper = new DBhelper(this, tableName);
+
+            // saves all tableNames
+            editor.putString(String.valueOf(i), tableName);
+
+            // for every ToDoItem in ToDoList: create ToDoItem in SQLite Database table
+            for (int j = 0; j < toDoManager.getToDoLists().get(i).getToDoItems().size(); j++) {
+                dBhelper.create(toDoManager.getToDoLists().get(i).getToDoItems().get(j));
+            }
+        }
+        editor.apply();
     }
 }
